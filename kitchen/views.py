@@ -226,3 +226,9 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("cook-detail", kwargs={"pk": self.object.pk})
+
+
+class CookDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Cook
+    template_name = "kitchen/cook_confirm_delete.html"
+    success_url = reverse_lazy("cook-list")
