@@ -226,4 +226,3 @@ class CookUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("cook-detail", kwargs={"pk": self.object.pk})
-
