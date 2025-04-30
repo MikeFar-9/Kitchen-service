@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Kitchen Service - Home{% endblock %}
+
+{% block content %}
+
+<div
+  class="hero mb-4"
+  style="
+    background-image: url('{% static "img/background.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <div class="hero-overlay text-center">
+    <h1
+      class="display-4 fw-bold text-white"
+      style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);"
+    >
+      Welcome to Kitchen Service
+    </h1>
+    <p
+      class="lead text-white"
+      style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.85);"
+    >
+      Manage dishes, ingredients, and cooks in one place
+    </p>
+  </div>
+</div>
+
+
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Dishes</h5>
+          <p class="card-text display-4">{{ dishes_count }}</p>
+          <a href="{% url "dish-list" %}" class="btn btn-primary">View Dishes</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Dish Types</h5>
+          <p class="card-text display-4">{{ dish_types_count }}</p>
+          <a href="{% url "dish-type-list" %}" class="btn btn-primary">View Dish Types</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Cooks</h5>
+          <p class="card-text display-4">{{ cooks_count }}</p>
+          <a href="{% url "cook-list" %}" class="btn btn-primary">View Cooks</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Ingredients</h5>
+          <p class="card-text display-4">{{ ingredients_count }}</p>
+          <a href="{% url "ingredient-list" %}" class="btn btn-primary">View Ingredients</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
