@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{ cook.username }} - Kitchen Service{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ cook.first_name }} {{ cook.last_name }}</h1>
+    <div>
+      <a href="{% url "cook-list" %}" class="btn btn-secondary">Back to List</a>
+      <a href="{% url "cook-update" cook.pk %}" class="btn btn-warning">Edit</a>
+      <a href="{% url "cook-delete" cook.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-3">Username:</dt>
+        <dd class="col-sm-9">{{ cook.username }}</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">{{ cook.email }}</dd>
+
+        <dt class="col-sm-3">Years of Experience:</dt>
+        <dd class="col-sm-9">{{ cook.years_of_experience }}</dd>
+      </dl>
+    </div>
+  </div>
+{% endblock %}

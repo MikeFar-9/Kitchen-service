@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}{{ dish.name }} - Kitchen Service{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ dish.name }}</h1>
+    <div>
+      <a href="{% url "dish-list" %}" class="btn btn-secondary">Back to List</a>
+      <a href="{% url "dish-update" dish.pk %}" class="btn btn-warning">Edit</a>
+      <a href="{% url "dish-delete" dish.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Dish Details</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Name:</dt>
+            <dd class="col-sm-9">{{ dish.name }}</dd>
+
+            <dt class="col-sm-3">Description:</dt>
+            <dd class="col-sm-9">{{ dish.description }}</dd>
+
+            <dt class="col-sm-3">Price:</dt>
+            <dd class="col-sm-9">${{ dish.price }}</dd>
+
+            <dt class="col-sm-3">Type:</dt>
+            <dd class="col-sm-9">{{ dish.dish_type.name }}</dd>
+
+            <dt class="col-sm-3">Preparing Time:</dt>
+            <dd class="col-sm-9">{{ dish.preparing_time }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Ingredients</h5>
+        </div>
+        <div class="card-body">
+          {% if dish.dishingredient_set.all %}
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for dish_ingredient in dish.dishingredient_set.all %}
+                <tr>
+                  <td>{{ dish_ingredient.ingredient.name }}</td>
+                  <td>{{ dish_ingredient.quantity }}</td>
+                  <td>
+                    <a href="{% url "remove-ingredient-from-dish" dish.id dish_ingredient.ingredient.id %}"
+                       class="btn btn-sm btn-danger">Remove</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="text-muted">No ingredients added to this dish yet.</p>
+          {% endif %}
+
+          <hr>
+
+          <h6>Add Ingredient</h6>
+          <form method="post" action="{% url "add-ingredient-to-dish" dish.id %}" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-6">
+              <select name="ingredient" class="form-select" required>
+                <option value="">Select Ingredient</option>
+                {% for ingredient in ingredient_list %}
+                  {% if ingredient not in dish.ingredients.all %}
+                    <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <input type="number" name="quantity" class="form-control" placeholder="Quantity" step="0.01" min="0"
+                     required>
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary w-100">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Cooks</h5>
+        </div>
+        <div class="card-body">
+          {% if dish.cooks.all %}
+            <ul class="list-group">
+              {% for cook in dish.cooks.all %}
+                <li class="list-group-item">
+                  {{ cook.first_name }} {{ cook.last_name }}
+                  <span class="badge bg-info float-end">{{ cook.years_of_experience }} years</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">No cooks assigned to this dish yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

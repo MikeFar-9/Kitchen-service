@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Logged Out - Kitchen Service{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h1 class="h4 mb-0">Logged Out</h1>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success">
+            <p>You have been successfully logged out.</p>
+          </div>
+
+          <div class="d-grid gap-2">
+            <a href="{% url "login" %}" class="btn btn-primary">Log in again</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
