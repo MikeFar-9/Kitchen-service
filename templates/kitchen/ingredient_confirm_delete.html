@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ ingredient.name }} - Kitchen Service{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h1 class="h4 mb-0">Confirm Deletion</h1>
+    </div>
+    <div class="card-body">
+      <p class="lead">Are you sure you want to delete the ingredient "{{ ingredient.name }}"?</p>
+
+      {% if ingredient.dishes.count > 0 %}
+        <div class="alert alert-danger">
+          <h5>Warning!</h5>
+          <p>This ingredient is currently used in {{ ingredient.dishes.count }} dish(es). Deleting it will affect these
+            dishes.</p>
+          <ul>
+            {% for dish in ingredient.dishes.all|slice:":5" %}
+              <li>{{ dish.name }}</li>
+            {% endfor %}
+            {% if ingredient.dishes.count > 5 %}
+              <li>... and {{ ingredient.dishes.count|add:"-5" }} more</li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <p>This action cannot be undone.</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+          <a href="{% url "ingredient-list" %}" class="btn btn-secondary me-2">Cancel</a>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
